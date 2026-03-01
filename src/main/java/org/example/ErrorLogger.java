@@ -2,12 +2,12 @@ package org.example;
 
 public class ErrorLogger extends AbstractLogger{
 
-    ErrorLogger(int level){
+    ErrorLogger(LogLevel level){
         super(level);
     }
     @Override
     public void displayLog(String message, LogSubject logSubject) {
         String logMessage = "ERROR: "+ message;
-        logSubject.notifyLogObservers(2,logMessage);
+        logSubject.notifyLogObservers(LogLevel.ERROR.getLevel(),logMessage);
     }
 }

@@ -2,14 +2,16 @@ package org.example;
 
 public class LogManager {
     public static AbstractLogger buildChainOfLoggers(){
-        AbstractLogger infoLogger = new InfoLogger(1);
-        AbstractLogger errorLogger = new ErrorLogger(2);
-        AbstractLogger debugLogger  = new DebugLogger(3);
+        AbstractLogger infoLogger = new InfoLogger(LogLevel.INFO);
+        AbstractLogger errorLogger = new ErrorLogger(LogLevel.ERROR);
+        AbstractLogger debugLogger  = new DebugLogger(LogLevel.DEBUG);
+        AbstractLogger warnLogger = new WarnLogger(LogLevel.WARN);
 
-        infoLogger.setNextLogLevel(errorLogger);
-        errorLogger.setNextLogLevel(debugLogger);
+        errorLogger.setNextLogLevel(warnLogger);
+        warnLogger.setNextLogLevel(infoLogger);
+        infoLogger.setNextLogLevel(debugLogger);
 
-        return infoLogger;
+        return errorLogger;
     }
 
 
@@ -20,11 +22,13 @@ public class LogManager {
 
         LogSubject logSubject = new LogSubject();
 
-        logSubject.register(1, consoleLogger);
-        logSubject.register(1, fileLogger);
+        logSubject.register(LogLevel.INFO.getLevel(), consoleLogger);
+        logSubject.register(LogLevel.INFO.getLevel(), fileLogger);
 
-        logSubject.register(2, consoleLogger);
-        logSubject.register(3, fileLogger);
+        logSubject.register(LogLevel.ERROR.getLevel(), consoleLogger);
+        logSubject.register(LogLevel.DEBUG.getLevel(), fileLogger);
+        logSubject.register(LogLevel.WARN.getLevel(), consoleLogger);
+
 
         return logSubject;
     }

@@ -15,10 +15,12 @@ public class LogSubject {
     }
 
     public void notifyLogObservers(int level, String message){
-        List<LogObserver> observerListByLevel = logObservers.get(level);
-
-        for(LogObserver logObserver : observerListByLevel){
-            logObserver.log(message);
+        for(Map.Entry<Integer, List<LogObserver>> entry: logObservers.entrySet()){
+            if(entry.getKey() == level){
+                for(LogObserver logObserver : entry.getValue()){
+                    logObserver.log(message);
+                }
+            }
         }
     }
 }

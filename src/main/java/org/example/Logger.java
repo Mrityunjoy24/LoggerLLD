@@ -21,21 +21,23 @@ public class Logger {
         return logger;
     }
 
-    public void createLog(int level, String message){
-        chainOfLoggers.log(level,message, logSubject);
+    public void createLog(LogLevel level, String message){
+        chainOfLoggers.log(level.getLevel(),message, logSubject);
     }
 
     public void info(String message){
-        createLog(1, message);
+        createLog(LogLevel.INFO, message);
     }
 
     public void error(String message){
-        createLog(2, message);
+        createLog(LogLevel.ERROR, message);
     }
 
     public void debug(String message){
-        createLog(3, message);
+        createLog(LogLevel.DEBUG, message);
+    }
+
+    public void warn(String message){
+        createLog(LogLevel.WARN, message);
     }
 }
-
-
